@@ -1,6 +1,5 @@
-import { IdeaLibraryPage } from "@/components/ideas/idea-library-page";
+import { redirect } from "next/navigation";
 
 export default function IdeasPage() {
-  return <IdeaLibraryPage />;
+  redirect("/app");
 }
-

@@ -1,9 +1,8 @@
-import { FoundryWorkspace } from "@/components/foundry/workspace";
+import { redirect } from "next/navigation";
 
 type Params = { params: Promise<{ ideaId: string }> };
 
 export default async function IdeaWorkspacePage({ params }: Params) {
   const { ideaId } = await params;
-  return <FoundryWorkspace ideaId={ideaId} />;
+  redirect(`/app?idea=${ideaId}`);
 }
-

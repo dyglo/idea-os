@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { useSearchParams } from "next/navigation";
 import { ArrowRight, Bot, FileOutput, PlayCircle, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +25,8 @@ type Idea = {
 const phaseOrder: Phase[] = ["extract", "interrogate", "ground", "plan", "build"];
 
 export function FoundryApp() {
+  const searchParams = useSearchParams();
+  const ideaParam = searchParams.get("idea");
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
   const [query, setQuery] = useState("");
@@ -50,7 +53,8 @@ export function FoundryApp() {
     const rows = (data.ideas ?? []) as Idea[];
     setIdeas(rows);
     if (!selectedId && rows.length > 0) {
-      setSelectedId(rows[0].id);
+      const target = ideaParam && rows.some((r) => r.id === ideaParam) ? ideaParam : rows[0].id;
+      setSelectedId(target);
     }
   }
 
@@ -99,7 +103,7 @@ export function FoundryApp() {
 
   useEffect(() => {
     void loadIdeas();
-  }, []);
+  }, [ideaParam]);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -111,12 +115,12 @@ export function FoundryApp() {
   );
 
   return (
-    <main className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-[1600px] grid-cols-1 gap-4 px-4 py-6 lg:grid-cols-[280px_minmax(0,1fr)_360px] lg:px-8">
+    <main className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-[1600px] grid-cols-1 gap-4 px-4 py-8 lg:grid-cols-[280px_minmax(0,1fr)_360px] lg:px-8">
       <aside className="outline-card p-4">
         <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/60">Idea Library</h2>
         <div className="relative mt-3">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input className="pl-9" placeholder="Search ideas" value={query} onChange={(e) => setQuery(e.target.value)} />
+          <Input className="rounded-full border-white/20 bg-white/[0.03] pl-9 text-white placeholder:text-white/35" placeholder="Search ideas" value={query} onChange={(e) => setQuery(e.target.value)} />
         </div>
         <div className="mt-4 space-y-2">
           {filtered.map((idea) => (
@@ -135,9 +139,9 @@ export function FoundryApp() {
         <Separator className="my-4" />
         <h3 className="text-sm font-medium">Create New Idea</h3>
         <div className="mt-2 space-y-2">
-          <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <Input placeholder="Summary" value={summary} onChange={(e) => setSummary(e.target.value)} />
-          <Button className="w-full gap-2" onClick={() => void createIdea()}>
+          <Input className="rounded-full border-white/20 bg-white/[0.03] text-white placeholder:text-white/35" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Input className="rounded-full border-white/20 bg-white/[0.03] text-white placeholder:text-white/35" placeholder="Summary" value={summary} onChange={(e) => setSummary(e.target.value)} />
+          <Button className="w-full gap-2 rounded-full border border-white/20 bg-white text-black hover:bg-white/90" onClick={() => void createIdea()}>
             <Plus className="size-4" />
             Add Idea
           </Button>
@@ -153,10 +157,10 @@ export function FoundryApp() {
                 <h1 className="text-2xl font-semibold">{selected.title}</h1>
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="capitalize">
+                <Badge variant="secondary" className="capitalize border border-white/20 bg-white/[0.06] text-white">
                   {selected.current_phase}
                 </Badge>
-                <Button onClick={() => void runPhase(selected.current_phase)} disabled={running} className="gap-2">
+                <Button onClick={() => void runPhase(selected.current_phase)} disabled={running} className="gap-2 rounded-full border border-white/20 bg-white text-black hover:bg-white/90">
                   <PlayCircle className="size-4" />
                   Run Phase
                 </Button>
@@ -178,7 +182,7 @@ export function FoundryApp() {
                   transition={{ duration: 0.34, ease: "easeOut" }}
                   className="grid gap-4 lg:grid-cols-2"
                 >
-                  <Card>
+                  <Card className="outline-card">
                     <CardHeader>
                       <CardTitle className="text-base uppercase">Critical Interrogation</CardTitle>
                     </CardHeader>
@@ -188,7 +192,7 @@ export function FoundryApp() {
                       <p>What would kill this within 90 days?</p>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card className="outline-card">
                     <CardHeader>
                       <CardTitle className="text-base uppercase">Execution Framing</CardTitle>
                     </CardHeader>
@@ -205,11 +209,11 @@ export function FoundryApp() {
             <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-white/20 bg-black/45 p-3">
               <p className="text-sm text-white/65">Ready for the next gate: <span className="font-medium capitalize text-white">{nextPhase}</span></p>
               <div className="flex gap-2">
-                <Button variant="outline" className="gap-2" onClick={() => void runPhase(nextPhase)}>
+                <Button variant="outline" className="gap-2 rounded-full border-white/25 bg-transparent text-white hover:bg-white hover:text-black" onClick={() => void runPhase(nextPhase)}>
                   Next Step
                   <ArrowRight className="size-4" />
                 </Button>
-                <Button variant="secondary" className="gap-2" onClick={() => void exportPlan()}>
+                <Button variant="secondary" className="gap-2 rounded-full border border-white/20 bg-white text-black hover:bg-white/90" onClick={() => void exportPlan()}>
                   <FileOutput className="size-4" />
                   Export
                 </Button>
