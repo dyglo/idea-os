@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { ArrowRight, Bot, FileOutput, PlayCircle, Plus, Search } from "lucide-react";
@@ -47,7 +47,7 @@ export function FoundryApp() {
     return phaseOrder[Math.min(idx + 1, phaseOrder.length - 1)];
   }, [selected]);
 
-  async function loadIdeas() {
+  const loadIdeas = useCallback(async () => {
     const res = await fetch("/api/ideas", { cache: "no-store" });
     const data = await res.json();
     const rows = (data.ideas ?? []) as Idea[];
@@ -56,9 +56,9 @@ export function FoundryApp() {
       const target = ideaParam && rows.some((r) => r.id === ideaParam) ? ideaParam : rows[0].id;
       setSelectedId(target);
     }
-  }
+  }, [ideaParam, selectedId]);
 
-  async function loadDetails(ideaId: string) {
+  const loadDetails = useCallback(async (ideaId: string) => {
     const [ctxRes, activityRes] = await Promise.all([
       fetch(`/api/ideas/${ideaId}/context`, { cache: "no-store" }),
       fetch(`/api/ideas/${ideaId}/activities`, { cache: "no-store" }),
@@ -67,7 +67,7 @@ export function FoundryApp() {
     const act = await activityRes.json();
     setContext(ctx);
     setActivities(act.items ?? []);
-  }
+  }, []);
 
   async function createIdea() {
     if (title.trim().length < 3) return;
@@ -103,12 +103,12 @@ export function FoundryApp() {
 
   useEffect(() => {
     void loadIdeas();
-  }, [ideaParam]);
+  }, [loadIdeas]);
 
   useEffect(() => {
     if (!selectedId) return;
     void loadDetails(selectedId);
-  }, [selectedId]);
+  }, [selectedId, loadDetails]);
 
   const filtered = ideas.filter((i) =>
     `${i.title} ${i.summary}`.toLowerCase().includes(query.toLowerCase()),

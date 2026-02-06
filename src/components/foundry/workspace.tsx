@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import {
@@ -52,7 +52,7 @@ export function FoundryWorkspace({ ideaId }: WorkspaceProps) {
     return phaseOrder[Math.min(i + 1, phaseOrder.length - 1)];
   }, [currentPhase]);
 
-  async function loadWorkspace() {
+  const loadWorkspace = useCallback(async () => {
     const [ideaRes, ctxRes, actRes] = await Promise.all([
       fetch(`/api/ideas/${ideaId}`, { cache: "no-store" }),
       fetch(`/api/ideas/${ideaId}/context`, { cache: "no-store" }),
@@ -64,7 +64,7 @@ export function FoundryWorkspace({ ideaId }: WorkspaceProps) {
     setIdea(ideaData.idea);
     setContext(contextData);
     setActivities(activityData.items ?? []);
-  }
+  }, [ideaId]);
 
   async function runPhase(phase: Phase) {
     setRunning(true);
@@ -87,7 +87,7 @@ export function FoundryWorkspace({ ideaId }: WorkspaceProps) {
     void loadWorkspace();
     const timer = setInterval(() => void loadWorkspace(), 10000);
     return () => clearInterval(timer);
-  }, [ideaId]);
+  }, [loadWorkspace]);
 
   return (
     <main className="grid min-h-screen grid-cols-1 gap-4 p-4 lg:grid-cols-[280px_minmax(0,1fr)_340px]">
