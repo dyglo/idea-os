@@ -32,24 +32,24 @@ const features = [
 export default function FeaturesPage() {
   return (
     <SiteShell>
-      <main className="mx-auto w-full max-w-7xl px-4 py-16 lg:px-8">
+      <main className="mx-auto w-full max-w-7xl px-6 pt-30 pb-20 lg:px-12">
         <header className="max-w-3xl">
           <Badge variant="secondary" className="border border-white/20 bg-white/5 text-white">Features</Badge>
-          <h1 className="section-title mt-4">Everything required to engineer ideas with rigor.</h1>
-          <p className="mt-4 text-base leading-8 text-white/65">
+          <h1 className="section-title mt-5 text-5xl md:text-6xl">Everything required to engineer ideas with rigor.</h1>
+          <p className="mt-5 text-[15px] leading-8 text-white/65">
             Built for teams that need clarity before execution and continuity after decisions.
           </p>
         </header>
-        <section className="mt-10 grid gap-4 md:grid-cols-3">
+        <section className="mt-14 grid gap-4 md:grid-cols-3">
           {features.map((feature) => (
             <Card key={feature.group} className="outline-card h-full">
               <CardHeader>
                 <CardTitle className="text-base uppercase">{feature.group}</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-3 text-sm text-white/65">
+                <ul className="space-y-3 text-[13px] text-white/65">
                   {feature.points.map((point) => (
-                    <li key={point} className="leading-6">• {point}</li>
+                    <li key={point} className="leading-7">• {point}</li>
                   ))}
                 </ul>
               </CardContent>

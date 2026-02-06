@@ -2,134 +2,195 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowRight, CircleDot } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function LandingPage() {
   return (
-    <main className="overflow-hidden">
-      <section className="relative mx-auto w-full max-w-7xl px-4 pt-20 pb-18 lg:px-8">
-        <div className="soft-orb pointer-events-none absolute top-8 right-[15%] h-72 w-72 rounded-full opacity-85 blur-[2px]" />
+    <main className="overflow-hidden bg-black text-white">
+      {/* Hero Section */}
+      <section className="relative flex min-h-screen flex-col items-center justify-center px-4 pt-32 pb-20 text-center">
+        {/* Background Orb */}
+        <div className="iridescent-orb absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 opacity-60" />
+
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative z-10 mx-auto max-w-5xl space-y-7 text-center"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-10 mx-auto max-w-6xl space-y-10"
         >
-          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/60">Idea Foundry Platform</p>
-          <h1 className="section-title text-5xl md:text-7xl">
-            The Critical Thinking
+          <h1 className="text-5xl font-extrabold uppercase leading-[1.1] tracking-tight md:text-8xl lg:text-[110px]">
+            The Idea Foundry
             <br />
             Production Engine
           </h1>
-          <p className="mx-auto max-w-2xl text-sm leading-7 text-white/65 md:text-base">
-            Structure signal from noise. Interrogate assumptions. Ground your direction in evidence.
-            Execute only when the idea has passed every quality gate.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" className="rounded-full border border-white/20 bg-white px-6 text-black hover:bg-white/90">
-              <Link href="/app">
-                Open Workspace
-                <ArrowRight className="size-4" />
-              </Link>
-            </Button>
+
+          <div className="mx-auto max-w-md space-y-8">
+            <p className="text-[13px] leading-relaxed text-white/50">
+              IdeaOS helps founders and product teams interrogate, structure, validate, and evolve ideas before committing engineering time.
+            </p>
+
+            <Link
+              href="/app"
+              className="group inline-flex items-center gap-2 border-capsule bg-white/5 hover:bg-white text-white hover:text-black transition-all"
+            >
+              Choose something
+              <div className="flex size-6 items-center justify-center rounded-full bg-white/20 group-hover:bg-black/10">
+                <ArrowRight className="size-3" />
+              </div>
+            </Link>
           </div>
         </motion.div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-4 py-14 lg:px-8">
-        <div className="mb-8 flex items-end justify-between">
-          <h2 className="section-title text-4xl md:text-5xl">About</h2>
-          <p className="max-w-xl text-xs leading-6 text-white/60 uppercase tracking-[0.12em]">
-            IdeaOS is a co-thinking SaaS for founders and teams who demand
-            rigor before roadmap commitment.
-          </p>
-        </div>
-        <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <Card className="outline-card">
-            <CardContent className="p-5 text-sm leading-7 text-white/70">
-              We convert raw thoughts into decision-ready execution plans with a phased reasoning engine.
-              Every assumption, evidence point, and decision is persisted so strategy does not reset each session.
-            </CardContent>
-          </Card>
-          {[
-            { metric: "100+", label: "validated concepts" },
-            { metric: "52", label: "founder teams" },
-            { metric: "5", label: "active markets" },
-          ].map((stat) => (
-            <Card key={stat.label} className="outline-card">
-              <CardContent className="flex h-full flex-col items-start justify-center p-5">
-                <p className="text-3xl font-semibold">{stat.metric}</p>
-                <p className="mt-2 text-xs uppercase tracking-[0.14em] text-white/55">{stat.label}</p>
-              </CardContent>
-            </Card>
-          ))}
+      {/* About Section */}
+      <section className="relative mx-auto w-full max-w-7xl px-6 py-24 lg:px-12">
+        {/* Decorative Orb */}
+        <div className="iridescent-orb absolute -right-20 top-1/2 h-64 w-64 -translate-y-1/2 opacity-40" />
+
+        <div className="relative z-10">
+          <h2 className="section-title mb-12 text-left">About</h2>
+
+          <div className="grid gap-12 lg:grid-cols-[1fr_auto]">
+            <div className="max-w-xl">
+              <p className="text-sm leading-relaxed text-white/50">
+                Foundry treats each idea as a stateful object with assumptions, evidence, constraints, open questions, and decisions. Teams stop losing context between chats and start building with strategic continuity.
+              </p>
+              <Link href="/product" className="mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white hover:opacity-70 transition-opacity">
+                More <ArrowRight className="size-3" />
+              </Link>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-12 lg:gap-20">
+              {[
+                { metric: "100+", label: "project" },
+                { metric: "32", label: "partners" },
+                { metric: "3", label: "offices" },
+              ].map((stat) => (
+                <div key={stat.label} className="space-y-2">
+                  <p className="text-5xl font-bold tracking-tight">{stat.metric}</p>
+                  <p className="text-sm font-medium text-white/40">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-4 py-14 lg:px-8">
-        <div className="mb-8 flex items-center justify-between">
-          <h2 className="section-title text-4xl md:text-5xl">Our Services</h2>
-          <Button asChild variant="outline" className="rounded-full border-white/30 bg-transparent text-white hover:bg-white hover:text-black">
-            <Link href="/features">Browse</Link>
-          </Button>
+      {/* Services Section */}
+      <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-12">
+        <div className="mb-16 flex flex-wrap items-end justify-between gap-8">
+          <div className="space-y-4">
+            <h2 className="section-title text-left">Our Services</h2>
+            <p className="max-w-md text-sm leading-relaxed text-white/40">
+              Phase-guided modules that convert messy thoughts into execution-ready strategic artifacts.
+            </p>
+          </div>
+          <Link
+            href="/features"
+            className="group inline-flex items-center gap-2 border-capsule bg-white/5 hover:bg-white text-white hover:text-black transition-all"
+          >
+            Choose
+            <div className="flex size-6 items-center justify-center rounded-full bg-white/20 group-hover:bg-black/10">
+              <ArrowRight className="size-3" />
+            </div>
+          </Link>
         </div>
-        <div className="grid gap-3 md:grid-cols-3">
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {[
             {
-              title: "Idea Development",
-              body: "Extract phase dedupes notes, links, and transcripts into the first structured graph.",
+              id: "01",
+              title: "Extract",
+              body: "Clean and cluster raw notes, docs, links, and dumps into coherent problem signals.",
+              className: "md:col-span-1 lg:col-span-1 min-h-[280px]"
             },
             {
-              title: "Critical Interrogation",
-              body: "Interrogate phase pressure-tests assumptions with adversarial prompts and risk checks.",
+              id: "02",
+              title: "Interrogate + Ground",
+              body: "Pressure-test assumptions and attach evidence, market signals, and risks to each claim.",
+              className: "md:col-span-1 lg:col-span-2 min-h-[280px]"
             },
             {
-              title: "Grounding",
-              body: "Ground phase links evidence and market signals directly to each hypothesis.",
+              id: "03",
+              title: "Plan",
+              body: "Generate decision-ready outputs: problem statement, ICP, differentiation, and MVP scope.",
+              className: "bg-white text-black min-h-[280px]"
             },
             {
-              title: "Execution Scope",
-              body: "Plan phase turns validated learning into MVP scope, ICP and differentiated value.",
-            },
-            {
+              id: "04",
               title: "Build Bridge",
-              body: "Build phase outputs implementation path and handoff artifacts for product execution.",
+              body: "Transition into implementation with stack recommendation and execution sequencing.",
+              className: "md:col-span-1 lg:col-span-1 min-h-[280px]"
             },
           ].map((service) => (
-            <Card key={service.title} className="outline-card md:col-span-1">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base uppercase">
-                  <CircleDot className="size-4 text-white/80" />
-                  {service.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm leading-6 text-white/65">{service.body}</CardContent>
-            </Card>
+            <div
+              key={service.id}
+              className={cn(
+                "outline-card group relative flex flex-col justify-between p-8 transition-all hover:border-white/30",
+                service.className,
+                service.id === "03" ? "bg-white text-black" : ""
+              )}
+            >
+              <div className="flex size-8 items-center justify-center rounded-full border border-current text-[10px] font-bold">
+                {service.id}
+              </div>
+              <div className="mt-12 space-y-4">
+                <h3 className="text-sm font-bold uppercase tracking-wider">{service.title}</h3>
+                <p className={cn("text-xs leading-relaxed", service.id === "03" ? "text-black/60" : "text-white/40")}>
+                  {service.body}
+                </p>
+              </div>
+            </div>
           ))}
-          <Card className="soft-orb outline-card min-h-44 md:col-span-1" />
+          {/* Decorative Card for Butterfly Placeholder */}
+          <div className="outline-card relative flex min-h-[280px] items-center justify-center overflow-hidden lg:col-span-2">
+            <div className="iridescent-orb absolute inset-0 opacity-30" />
+            <div className="relative z-10 text-center">
+              {/* Simplified Butterfly/Object representation */}
+              <div className="flex items-center justify-center">
+                <div className="size-32 rounded-full bg-gradient-to-tr from-purple-500/20 via-blue-500/20 to-pink-500/20 blur-2xl" />
+                <div className="absolute size-24 border-2 border-white/10 rounded-[40%_60%_70%_30%/40%_50%_60%_40%]" />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="relative mx-auto w-full max-w-7xl px-4 pt-10 pb-20 lg:px-8">
-        <div className="soft-orb pointer-events-none absolute right-8 bottom-0 h-56 w-56 rounded-full opacity-80" />
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="section-title text-4xl md:text-6xl">
+      {/* Special Offer Section */}
+      <section className="relative flex flex-col items-center justify-center px-6 py-32 text-center">
+        {/* Background Orb */}
+        <div className="iridescent-orb absolute top-1/2 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 opacity-40" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="relative z-10 space-y-10"
+        >
+          <h2 className="text-4xl font-extrabold uppercase leading-tight tracking-tight md:text-6xl lg:text-7xl">
             Special Offer
             <br />
             For New Clients
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/65">
-            Start with a strategic Foundry onboarding and ship your first decision-grade idea brief in 7 days.
-          </p>
-          <Button asChild size="lg" className="mt-7 rounded-full border border-white/20 bg-white px-7 text-black hover:bg-white/90">
-            <Link href="/pricing">
-              Choose Plan
-              <ArrowRight className="size-4" />
+
+          <div className="mx-auto max-w-md space-y-8">
+            <p className="text-[13px] leading-relaxed text-white/50">
+              New founder teams get guided onboarding, process calibration, and first execution brief generation support.
+            </p>
+
+            <Link
+              href="/pricing"
+              className="group inline-flex items-center gap-2 border-capsule bg-white/5 hover:bg-white text-white hover:text-black transition-all"
+            >
+              Choose something
+              <div className="flex size-6 items-center justify-center rounded-full bg-white/20 group-hover:bg-black/10">
+                <ArrowRight className="size-3" />
+              </div>
             </Link>
-          </Button>
-        </div>
+          </div>
+        </motion.div>
       </section>
     </main>
   );

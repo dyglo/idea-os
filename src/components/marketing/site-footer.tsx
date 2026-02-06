@@ -2,15 +2,14 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/15 bg-black/30">
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-4 px-4 py-10 text-xs uppercase tracking-[0.14em] text-white/60 md:flex-row lg:px-8">
-        <p>IdeaOS Foundry © 2026</p>
-        <div className="flex gap-4">
-          <Link href="/product">Product</Link>
-          <Link href="/features">Features</Link>
-          <Link href="/how-it-works">Process</Link>
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/app">App</Link>
+    <footer className="bg-black">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-6 px-6 py-12 text-[11px] font-medium tracking-widest text-white/30 md:flex-row lg:px-12 uppercase">
+        <p>ideaos<span className="text-white/10">.</span> © 2026</p>
+        <div className="flex gap-8">
+          <Link href="/product" className="hover:text-white transition-colors">Project</Link>
+          <Link href="/features" className="hover:text-white transition-colors">Team</Link>
+          <Link href="/how-it-works" className="hover:text-white transition-colors">About</Link>
+          <Link href="/pricing" className="hover:text-white transition-colors">Contact</Link>
         </div>
       </div>
     </footer>
